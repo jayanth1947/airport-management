@@ -1,0 +1,54 @@
+.THIS.airportlayout {
+    background-color:#16325C ;
+    background-image: url(''); 
+    margin-top:20px;
+}
+.THIS.showflightlayout{
+    background-color:cornsilk ;
+    background-image: url(''); 
+    
+    
+}
+.THIS.flex-container{
+        float: right;
+    margin-right:40px;
+    margin-top:15px;
+    height:35px;
+    width:7%;
+    border:none;
+    border-radius:5px;
+    background-color:red;
+    font-size:17px;
+    font-weight:600;
+    cursor:pointer;
+    color:white;
+    
+}
+
+
+.THIS.h1 {
+ border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px #348dad;
+    background-color:cornsilk;
+    align-content: space-between;
+    
+}
+.THIS .field-title{
+    line-height:1.25rem;
+    color:Black;
+    font-weight:bold;
+}
+.THIS .header-column{
+    color:Black;
+   
+}
+.THIS .header-colu{
+    
+    margin-right: 1100px;
+    
+}
+.THIS .my-brand {background-color: #f44336; color: white;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;}

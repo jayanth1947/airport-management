@@ -1,0 +1,22 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+	<aura:attribute name="from" type="string"></aura:attribute> 
+    <aura:attribute name="fromOptions" type="List"></aura:attribute>
+    <aura:attribute name="to" type="string"></aura:attribute> 
+    <aura:attribute name="toOptions" type="List"></aura:attribute>
+    <aura:handler name="init" value="this" action="{!c.initSearch}"></aura:handler>
+    <aura:registerEvent name="FlightSearchEvent" type="c:FlightSearchEvent"></aura:registerEvent>
+    <lightning:layout multipleRows="true" class="Flightlayout">
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:combobox label="From" class="boxstyle" placeholder="Select Your Boarding Airport" fieldLevelHelp="Search Flight based on Boarding City" variant="label-stacked" value="{!v.from}" options="{!v.fromOptions}" onchange="{!c.handleFilterChange}">
+                </lightning:combobox>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:combobox label="To" class="boxstyle" placeholder="Select Your Destination Airport" fieldLevelHelp="Search Flight based on Destination City" variant="label-stacked" value="{!v.to}" options="{!v.toOptions}" onchange="{!c.handleFilterChange}">
+                </lightning:combobox>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

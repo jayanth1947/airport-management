@@ -1,0 +1,4 @@
+<aura:event type="Component" description="Event template">
+    <aura:attribute name="fromfil" type="string"></aura:attribute>
+    <aura:attribute name="tofil" type="string"></aura:attribute>
+</aura:event>

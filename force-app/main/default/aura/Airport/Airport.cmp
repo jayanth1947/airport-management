@@ -1,0 +1,366 @@
+<aura:component controller="GetDetails" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="FlightList" type="Flight__c[]"></aura:attribute>
+    <aura:attribute name="FlightFound" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openFlight" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openpilots" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openairplanes" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openairlines" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openPassengers" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="opentickets" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="openboardingpasses" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg1" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg2" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg3" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg4" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg5" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg6" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="SuccessMsg7" type="boolean" default="false"></aura:attribute>
+    <aura:attribute name="AllFlights" type="boolean" default="false"></aura:attribute>
+    <aura:handler name="init" value="{!this}" action="{!c.FetchFlightDetails}"/>
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
+    <aura:handler name="FlightSearchEvent" event="c:FlightSearchEvent" action="{!c.handleFlightSearch}"></aura:handler>
+    <h1 class="h1" style="text-align:center;font-weight: bold;font-size:50px;color:#16325C; background-color:#eeeee4">Airport Management System</h1>
+	<lightning:layout multipleRows="true" class="airportlayout">
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:button class="btnStyle" variant="Inverse" label="Flight Details" onclick="{!c.NavigateToFlight}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:button class="btnStyle" variant="Inverse" label="Pilot Details" onclick="{!c.NavigateTopilots}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:button class="btnStyle" variant="Inverse" label="Airplane Details" onclick="{!c.NavigateToairplanes}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+               <lightning:button class="btnStyle" variant="Inverse" label="Airline Details" onclick="{!c.NavigateToairlines}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:button class="btnStyle" variant="Inverse" label="Passenger Details" onclick="{!c.NavigateTopassengers}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:button class="btnStyle" variant="Inverse" label="Ticket Details" onclick="{!c.NavigateTotickets}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="around-small" flexibility="auto">
+            <div class="header-column">
+                <lightning:button class="btnStyle" variant="Inverse" label="BoardingPass Details" onclick="{!c.NavigateToboardingpasses}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+    <!-- flight details-->
+    <aura:if isTrue="{!v.openFlight}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closeFlightTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                       <lightning:card title="Submit Flight Details">
+                            <aura:if isTrue="{!v.SuccessMsg1}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small">
+                                        <lightning:recordEditForm objectApiName="Flight__c" onsuccess="{!c.handleSuccess1}">
+                                            <lightning:inputField fieldName="Aeroplane_id__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Name" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="From__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="To__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Departure_Date_and_Time__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Arrival_Date_and_Time__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Embed_URL__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>
+                   </div>
+               </div>
+          </section>
+      </div>
+  </aura:if> 
+  <!-- pilot details-->
+  <aura:if isTrue="{!v.openpilots}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closePilotsTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                   		<lightning:card title="Submit Pilot Details">
+                            <aura:if isTrue="{!v.SuccessMsg2}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small">
+                                        <lightning:recordEditForm objectApiName="Pilot__c" onsuccess="{!c.handleSuccess2}">
+                                            <!--<lightning:inputField fieldName="First_Name__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>-->
+                                            <!--<lightning:inputField fieldName="Last_Name__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>-->
+                                            <lightning:inputField fieldName="Flight_id__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Name" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Pilot_License__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Designation__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Contact_Number__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>   
+                   </div>
+               </div>
+          </section>
+      </div>
+  <!-- airplane details-->
+  </aura:if>
+    <aura:if isTrue="{!v.openairplanes}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closeAirplanesTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                   		<lightning:card title="Submit Airplane Details">
+                            <aura:if isTrue="{!v.SuccessMsg3}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small">
+                                        <lightning:recordEditForm objectApiName="Airplane__c" onsuccess="{!c.handleSuccess3}">
+                                            <lightning:inputField fieldName="Name" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Airline_id__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="manufacturer__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Model_Number__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>	        
+                   </div>
+               </div>
+          </section>
+      </div>
+  </aura:if>
+  <!-- Airline details-->
+  <aura:if isTrue="{!v.openairlines}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closeAirlinesTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                   		<lightning:card title="Submit Airline Details">
+                            <aura:if isTrue="{!v.SuccessMsg4}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small">
+                                        <lightning:recordEditForm objectApiName="Airline__c" onsuccess="{!c.handleSuccess4}">
+                                            <lightning:inputField fieldName="Logo__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Name" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Phone_Number__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Email__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Address__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>    
+                   </div>
+               </div>
+          </section>
+
+      </div>
+     
+  <!-- passenger details-->
+  </aura:if> 
+    <aura:if isTrue="{!v.openPassengers}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closePassengersTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                   		<lightning:card title="Submit Passenger Details">
+                            <aura:if isTrue="{!v.SuccessMsg5}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small" >
+                                        <lightning:recordEditForm objectApiName="Passenger__c" onsuccess="{!c.handleSuccess5}">
+                                            <lightning:inputField fieldName="First_Name__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Last_Name__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Name" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Contact_Number__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Email__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Address__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>		    
+                   </div>
+               </div>
+          </section>
+      </div>
+  <!-- ticket details-->
+  </aura:if> 
+  <aura:if isTrue="{!v.opentickets}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closeTicketsTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                   		<lightning:card title="Submit Ticket Details">
+                            <aura:if isTrue="{!v.SuccessMsg6}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small" >
+                                        <lightning:recordEditForm objectApiName="Ticket__c" onsuccess="{!c.handleSuccess6}">
+                                            <lightning:inputField fieldName="Ticket_Class__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Name" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="From__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="To__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Fare__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Invoice_Number__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Passenger_id__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Flight_id__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Food_Preferance__c	" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>    
+                   </div>
+               </div>
+          </section>
+      </div>
+  </aura:if> 
+  <!-- onboarding details-->
+  <aura:if isTrue="{!v.openboardingpasses}">
+      <div style="margin-top:5%">
+           <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+               <div class="slds-modal__container">
+                   <header class="slds-modal__header">
+                       <lightning:buttonIcon class="slds-modal__close" iconName="utility:close" onclick="{!c.closeBoardingPassesTab}">
+                          </lightning:buttonIcon>
+                   </header>
+                   <div class="sdls-modal__content sdls-p-arounf_medium">
+                   		<lightning:card title="Submit Boarding Pass Details">
+                            <aura:if isTrue="{!v.SuccessMsg7}">
+                                <span style="color:green;font-size:15px">Your details submitted successfully.</span>
+                                <aura:set attribute="else">
+                                    <div class="sldc-p-around_small">
+                                        <lightning:recordEditForm objectApiName="Boarding_Pass__c" onsuccess="{!c.handleSuccess7}">
+                                            <lightning:inputField fieldName="Name" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Ticket_id__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Passenger_id__c" class="fieldStyle"  variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Flight_id__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Gate__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Baggage__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Meal__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Has_Checked_In__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:inputField fieldName="Has_Boarded__c" class="fieldStyle" variant="label-stacked" ></lightning:inputField>
+                                            <lightning:button type="submit" name="update" label="Submit Details" variant="Destructive" class="slds-m-top_small"></lightning:button>
+                                        </lightning:recordEditForm>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </lightning:card>    
+                   </div>
+               </div>
+          </section>
+      </div>
+  </aura:if>
+  <lightning:layout multipleRows="true" class="airportlayout">
+      <lightning:layoutItem padding="around-small">
+            <div class="header-column">
+               <lightning:button class="slds-button slds-button_outline-brand"  label="Show Flights" onclick="{!c.NavigateToALLFlight}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+      <lightning:layoutItem padding="around-small">
+            <div class="margin-column">
+                <lightning:button class="slds-button slds-button_outline-brand" label="Hide Flights" onclick="{!c.closeAllFlight}"></lightning:button>
+            </div>
+        </lightning:layoutItem>
+  </lightning:layout>
+<!-- All FLights -->
+    <aura:if isTrue="{!v.AllFlights}">
+                                            <aura:if isTrue="{!v.FlightFound}">
+                                              <c:FlightSearch></c:FlightSearch>
+                                              <aura:iteration items="{!v.FlightList}" var="flight">
+                                                   <div class="slds-box slds-grid slds-wrap slds-p-around_small" style="margin-top:2%;width:100%;background-color:white;">
+                                                      <div class="slds-col">
+                                                            <div class="slds-col slds-border_bottom" style="width:100%;background-color:LightYellow;">
+                                                                <lightning:layout multipleRows="True">
+                                                                        <lightning:layoutItem padding="around-small" flexibility="auto">
+                                                                            <div class="header-column">
+                                                                                <p class="field-title" title="Flight-No">Flight No</p>
+                                                                                <p>{!flight.Fight_id__c}</p>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                        <lightning:layoutItem padding="around-small" flexibility="auto">
+                                                                            <div class="header-column">
+                                                                                <p class="field-title" title="Filght-Name">Flight Name</p>
+                                                                                <p>{!flight.Name}</p>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                    <lightning:layoutItem padding="around-small" flexibility="auto">
+                                                                            <div class="header-column">
+                                                                                <p class="field-title" title="Flight-From">Flight From</p>
+                                                                                <p>{!flight.From__c}</p>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                    <lightning:layoutItem padding="around-small" flexibility="auto">
+                                                                            <div class="header-column">
+                                                                                <p class="field-title" title="Flight To">Flight To</p>
+                                                                                <p>{!flight.To__c}</p>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                    <lightning:layoutItem padding="around-small" flexibility="auto">
+                                                                            <div class="header-column">
+                                                                                <p class="field-title" title="Arrival-Time">Arrival Time</p>
+                                                                                <p>{!flight.Arrival_Date_and_Time__c}</p>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                    <lightning:layoutItem padding="around-small" flexibility="auto">
+                                                                            <div class="header-column">
+                                                                                <p class="field-title" title="Departure-Time">Departure Time</p>
+                                                                                <p>{!flight.Departure_Date_and_Time__c}</p>
+                                                                            </div>
+                                                                        </lightning:layoutItem>
+                                                                </lightning:layout>
+                                                                <iframe src="{!flight.Embed_URL__c}" width="1450" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                                            </div>
+                                                      </div>
+                                                  </div>
+                                              </aura:iteration>
+                                              <aura:set attribute="else">
+                                                    <span style="color:red;text-align:center;">Flights Not Found</span>
+                                              </aura:set>
+                                          </aura:if>
+      </aura:if>
+</aura:component>
