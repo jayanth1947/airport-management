@@ -1,4 +1,5 @@
 <aura:component controller="GetDetails" implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" access="global" >
+ `  <!-- Component attributes -->
     <aura:attribute name="FlightList" type="Flight__c[]"></aura:attribute>
     <aura:attribute name="FlightFound" type="boolean" default="false"></aura:attribute>
     <aura:attribute name="openFlight" type="boolean" default="false"></aura:attribute>
@@ -16,6 +17,8 @@
     <aura:attribute name="SuccessMsg6" type="boolean" default="false"></aura:attribute>
     <aura:attribute name="SuccessMsg7" type="boolean" default="false"></aura:attribute>
     <aura:attribute name="AllFlights" type="boolean" default="false"></aura:attribute>
+
+     <!-- Component initialization and event handlers -->
     <aura:handler name="init" value="{!this}" action="{!c.FetchFlightDetails}"/>
     <aura:handler name="change" value="{!v.pageReference}" action="{!c.reInit}" />
     <aura:handler name="FlightSearchEvent" event="c:FlightSearchEvent" action="{!c.handleFlightSearch}"></aura:handler>
@@ -57,6 +60,8 @@
             </div>
         </lightning:layoutItem>
     </lightning:layout>
+
+    <!-- Buttons for different functionalities -->
     <!-- flight details-->
     <aura:if isTrue="{!v.openFlight}">
       <div style="margin-top:5%">
@@ -295,8 +300,11 @@
           </section>
       </div>
   </aura:if>
+
+  <!-- Component UI for showing all flights -->
   <lightning:layout multipleRows="true" class="airportlayout">
       <lightning:layoutItem padding="around-small">
+       <!-- Button to show all flights -->
             <div class="header-column">
                <lightning:button class="slds-button slds-button_outline-brand"  label="Show Flights" onclick="{!c.NavigateToALLFlight}"></lightning:button>
             </div>
@@ -308,9 +316,13 @@
         </lightning:layoutItem>
   </lightning:layout>
 <!-- All FLights -->
+<!-- Check if any flights are found -->
     <aura:if isTrue="{!v.AllFlights}">
                                             <aura:if isTrue="{!v.FlightFound}">
+                                            <!-- Flight search component -->
                                               <c:FlightSearch></c:FlightSearch>
+
+                                              <!-- Iterate over the flight list -->
                                               <aura:iteration items="{!v.FlightList}" var="flight">
                                                    <div class="slds-box slds-grid slds-wrap slds-p-around_small" style="margin-top:2%;width:100%;background-color:white;">
                                                       <div class="slds-col">
@@ -358,6 +370,7 @@
                                                       </div>
                                                   </div>
                                               </aura:iteration>
+                                               <!-- Display message when no flights are found -->
                                               <aura:set attribute="else">
                                                     <span style="color:red;text-align:center;">Flights Not Found</span>
                                               </aura:set>

@@ -1,14 +1,22 @@
+/* Styles for the airportlayout class */
+/* Sets the background color, background image, and margins for the airport layout */
 .THIS.airportlayout {
     background-color:#16325C ;
     background-image: url(''); 
     margin-top:20px;
 }
+
+/* Styles for the showflightlayout class */
+/* Sets the background color, background image, and other styles for the showflightlayout */
 .THIS.showflightlayout{
     background-color:cornsilk ;
     background-image: url(''); 
     
     
 }
+
+/* Styles for the flex-container class */
+/* Sets the styles for a flex container used in the layout */
 .THIS.flex-container{
         float: right;
     margin-right:40px;
@@ -25,7 +33,8 @@
     
 }
 
-
+/* Styles for the h1 class */
+/* Sets the styles for the h1 heading */
 .THIS.h1 {
  border: 1px solid;
   padding: 10px;
@@ -34,20 +43,32 @@
     align-content: space-between;
     
 }
+
+/* Styles for the field-title class */
+/* Sets the styles for the field title elements */
 .THIS .field-title{
     line-height:1.25rem;
     color:Black;
     font-weight:bold;
 }
+
+/* Styles for the header-column class */
+/* Sets the styles for the header column elements */
 .THIS .header-column{
     color:Black;
    
 }
+
+/* Styles for the header-colu class */
+/* Sets the margin-right style for the header-colu elements */
 .THIS .header-colu{
     
     margin-right: 1100px;
     
 }
+
+/* Styles for the my-brand class */
+/* Sets the styles for the my-brand elements */
 .THIS .my-brand {background-color: #f44336; color: white;
   text-align: center;
   text-decoration: none;
